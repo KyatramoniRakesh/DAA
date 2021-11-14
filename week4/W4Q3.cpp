@@ -1,47 +1,113 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@KyatramoniRakesh 
+akshitasinghal4444
+/
+DAA-lab
+Public
+1
+02
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+DAA-lab/week-4/k_smallest.cpp
+@akshitasinghal4444
+akshitasinghal4444 Add files via upload
+Latest commit e36e45c on Sep 1
+ History
+ 1 contributor
+70 lines (61 sloc)  1.1 KB
+   
 #include<iostream>
+#include<cstdlib>
 using namespace std;
-int comp=0;
-int ksmall(int arr[],int l,int h,int k)
-{
-    int an=arr[h];
-    int i=l-1;
-    int j=l;
-    while(j<=h)
-    {
-        comp++;
-        if(arr[j]<=an)
-        {
-            int tem=arr[++i];
-            arr[i]=arr[j];
-            arr[j]=tem;
-        }
-        j++;
-    }
-    comp++;
-    if(i==k)
-    return arr[i];
-    else if(i<k)
-    return ksmall(arr,i+1,h,k);
-    else
-    return ksmall(arr,l,i-1,k);
 
+void swap(int *n1,int *n2)
+{
+    int t=*n1;
+    *n1=*n2;
+    *n2=t;
 }
+
+int partition(int *a,int l,int r)
+{
+    int x=rand()%(r-l+1)+l;
+    swap(&a[x],&a[r]);
+    int pivot=a[r];
+    int i,j;
+    for(i=l-1,j=l;j<r;j++)
+    {
+        if(a[j]<pivot)
+        {
+            i++;
+            swap(&a[i],&a[j]);
+        }
+    }
+    swap(&a[i+1],&a[r]);
+    return (i+1);
+}
+
+int quick_sort(int *a,int l,int r,int k)
+{
+    if(l<r)
+    {
+        int pivot=partition(a,l,r);
+        if(pivot==k)
+        return a[pivot];
+        if(k<pivot)
+        return quick_sort(a,l,pivot-1,k);
+        else
+        return quick_sort(a,pivot+1,r,k);
+    }
+    return -1;
+}
+
 int main()
 {
-    int t,siz;
+    int t;
     cin>>t;
-
-    for(int i=0;i<t;i++)
+    while(t--)
     {
-        int k;
-        cin>>siz;
-        int ar[siz];
-        for(int j=0;j<siz;j++)
-        cin>>ar[j];
+        int n,k;
+        cin>>n;
+
+        int i;
+        int a[n];
+        for(i=0;i<n;i++)
+        cin>>a[i];
+
         cin>>k;
-       int ans= ksmall(ar,0,(siz-1),k);
+
+        int ans=quick_sort(a,0,n-1,k-1);
+
+        if(ans==-1)
+        cout<<"not present\n";
+        else
         cout<<ans<<endl;
-        cout<<"COMPARISION: "<<comp<<endl;
     }
+    
     return 0;
 }
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Loading complete
